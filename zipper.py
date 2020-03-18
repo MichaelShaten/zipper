@@ -1,30 +1,24 @@
+from zipfile import ZipFile
 import os
 
-
+def get_file_paths(directory):
+    file_paths = []
+    
+    for root,dirs,files in os.walk(directory):
+        for filename in files:
+            filepath = os.path.join(root,filename)
+            file_paths.append(filepath)
+    return file_paths
 def main():
-    f = open("new_file.txt","w")
-    f.write("'Hello There'\n'General Kenobi!'")
-    f.close()
-
-    with open("new_file_2.txt", "w") as f:
-    # f = open("new_file_2.txt", "w")
-        f.write("OH HELLO THERE!!!")
-
-    f = open('new_file.txt')
-    print(f.read())
-    f.close()
-
-    # os.startfile('new_file.txt')
-
-
-
-
-
-
-
-
-
-
+    directory = input("Enter directory: ")
+    file_paths = get_file_paths(directory)
+    print("Following files will be zipped: ")
+    for file_name in file_paths:
+        print(file_name)
+    with ZipFile("my_python_files.zip","w") as zip:
+        for file in file_paths:
+            zip.write(file)
+    print("All files zipped successfully!")
 
 if __name__ == "__main__":
     main()
